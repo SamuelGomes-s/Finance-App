@@ -1,7 +1,7 @@
 # OSX
 #
 .DS_Store
-
+/cores.txt
 # Xcode
 #
 build/
