@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Input from "../../components/Input";
-import { Container } from "./styles";
+import { Container, LinkBtn, LinkText } from "./styles";
 import SubmitBtn from "../../components/SubmitBtn";
+import { useNavigation } from "@react-navigation/native";
+import Logo from "../../assets/Logo.png"
 
 export default function SignIn() {
-    const [name, setName] = useState();
+
+    const navigation = useNavigation();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
+    function handleLink() {
+        navigation.navigate('signUp')
+    }
     return (
         <Container>
-            <Input placeholder="Digite seu nome" />
+            <Image source={Logo} style={{ height: 150, width: 150, resizeMode: 'contain', marginBottom: 30 }} />
             <Input placeholder="Digite seu email" />
-            <Input placeholder="Digite sua senha" />
-            <SubmitBtn loading={false} text={'Cadastrar'} />
+            <Input placeholder="Digite seu email" />
+            <SubmitBtn loading={false} text={'Acessar'} />
+            <LinkBtn onPress={handleLink}>
+                <LinkText>
+                    Não possui uma conta! Crie uma
+                </LinkText>
+            </LinkBtn>
         </Container>
     )
 }
