@@ -1,16 +1,16 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../pages/home";
 import Register from "../pages/register";
 import Profile from "../pages/profile";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-const AppStack = createNativeStackNavigator();
+const AppDrawer = createDrawerNavigator();
 
 export default function AppRoutes() {
     return (
-        <AppStack.Navigator>
-            <AppStack.Screen name="homne" component={Home} />
-            <AppStack.Screen name="register" component={Register} />
-            <AppStack.Screen name="profile" component={Profile} />
-        </AppStack.Navigator>
+        <AppDrawer.Navigator screenOptions={{headerShown: false}}>
+            <AppDrawer.Screen name="homne" component={Home} />
+            <AppDrawer.Screen name="register" component={Register} />
+            <AppDrawer.Screen name="profile" component={Profile} />
+        </AppDrawer.Navigator>
     )
 }

@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
 
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
@@ -16,7 +17,18 @@ export default function AuthProvider({ children }) {
                 email: email,
                 password: password
             })
-            console.log(response.data)
+
+            //Fornecer token para as proximas requisições
+            api.defaults.headers['Authorization'] = `Bearer ${response.data?.token}`;
+
+            setUser(
+                {
+                    name: response.data?.name,
+                    email: email,
+                    uid: response.data?.id,
+                }
+            );
+
         } catch (error) {
             console.log(error.message)
         } finally {
@@ -43,9 +55,11 @@ export default function AuthProvider({ children }) {
     return (
         <AuthContext.Provider
             value={{
+                signed: !!user,
                 handleSignIn,
                 handleSignUp,
-                loading
+                loading,
+                user
             }}
         >
             {children}
