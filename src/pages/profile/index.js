@@ -3,9 +3,18 @@ import SubmitBtn from "../../components/SubmitBtn";
 import { Container, Content, ContentBtn, LogOutBtn, Title } from "./styles";
 import { AuthContext } from "../../contexts/auth.context";
 import Header from "../../components/Header";
+import { ActivityIndicator } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Profile() {
-    const { user } = useContext(AuthContext);
+
+    const navigation = useNavigation();
+    const { user, handleLogOut, loading } = useContext(AuthContext);
+
+    function logOut() {
+        handleLogOut();
+    };
+
     return (
         <Container>
             <Header $msg={'Meu perfil'} />
@@ -14,10 +23,10 @@ export default function Profile() {
                     Bem vindo de volta!!
                 </Title>
                 <Title>{user?.name}</Title>
-                <SubmitBtn $text={'Registrar gastos'} />
-                <LogOutBtn>
+                <SubmitBtn $loading={loading} $text={'Registrar gastos'} onPress={() => navigation.navigate('register')} />
+                <LogOutBtn onPress={logOut}>
                     <ContentBtn>
-                        Sair
+                        {loading ? (<ActivityIndicator size={'small'} color={'#EF463A'} />) : 'Sair'}
                     </ContentBtn>
                 </LogOutBtn>
             </Content>
