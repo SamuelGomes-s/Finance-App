@@ -46,15 +46,15 @@ export default function SignIn() {
                 secureTextEntry
             />
             <SubmitBtn
-                loading={loading}
-                text={'Acessar'}
+                $loading={loading}
+                $text={'Acessar'}
                 onPress={login}
             />
             <LinkBtn
                 onPress={handleLink}
             >
                 <LinkText>
-                    Não possui uma conta! Crie uma
+                    Não possui uma conta? Crie uma
                 </LinkText>
             </LinkBtn>
         </Container>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.TouchableOpacity`
-    background-color: #3B3DBF;
+    background-color: ${props => !props.$bg ? '#3B3DBF' : props.$bg};
     padding-left: 10px;
     padding-right: 10px;
     width:100%;

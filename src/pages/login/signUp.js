@@ -43,8 +43,8 @@ export default function SignUp() {
                 secureTextEntry
             />
             <SubmitBtn
-                loading={loading}
-                text={'Cadastrar'}
+                $loading={loading}
+                $text={'Cadastrar'}
                 onPress={login}
             />
         </Container>

@@ -5,8 +5,12 @@ const Container = styled.View`
     background-color: #f0f4ff;
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 25%;
+`;
+
+const Content = styled.View`
     align-items: center;
+    padding-top: 25%;
+    width: 100%;
 `;
 
 const Title = styled.Text`
@@ -37,5 +41,6 @@ export {
     Container,
     LogOutBtn,
     ContentBtn,
-    Title
+    Title,
+    Content
 }
