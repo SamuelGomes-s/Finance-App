@@ -6,7 +6,7 @@ import Type from "./components/Type";
 import SubmitBtn from "../../components/SubmitBtn";
 import { api } from "../../services/api/apiBackend"
 import { format } from "date-fns";
-import { Keyboard } from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 export default function Register() {
 
@@ -51,26 +51,28 @@ export default function Register() {
   }
 
   return (
-    <Container>
-      <Header $msg={'Registrar movimentação'} />
-      <Content>
-        <Input
-          placeholder="Nome"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-        />
-        <Input
-          placeholder="Valor desejado"
-          inputMode={'numeric'}
-          value={value}
-          onChangeText={(text) => setValue(text)}
-        />
-        <ContentBtn>
-          <Type $typemsg={'Receita'} $iconName={"arrowup"} $selected={type === 'receita'} onPress={() => toggletype('receita')} />
-          <Type $typemsg={'Despesa'} $iconName={"arrowdown"} $selected={type === 'despesa'} onPress={() => toggletype('despesa')} />
-        </ContentBtn>
-        <SubmitBtn $loading={false} $text={"Cadastrar"} $bg={'#00B94A'} onPress={handleAddRegister} />
-      </Content>
-    </Container>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+      <Container>
+        <Header $msg={'Registrar movimentação'} />
+        <Content>
+          <Input
+            placeholder="Nome"
+            value={description}
+            onChangeText={(text) => setDescription(text)}
+          />
+          <Input
+            placeholder="Valor desejado"
+            inputMode={'numeric'}
+            value={value}
+            onChangeText={(text) => setValue(text)}
+          />
+          <ContentBtn>
+            <Type $typemsg={'Receita'} $iconName={"arrowup"} $selected={type === 'receita'} onPress={() => toggletype('receita')} />
+            <Type $typemsg={'Despesa'} $iconName={"arrowdown"} $selected={type === 'despesa'} onPress={() => toggletype('despesa')} />
+          </ContentBtn>
+          <SubmitBtn $loading={false} $text={"Cadastrar"} $bg={'#00B94A'} onPress={handleAddRegister} />
+        </Content>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 }
