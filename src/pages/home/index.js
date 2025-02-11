@@ -5,15 +5,17 @@ import { api } from "../../services/api/apiBackend";
 import { format } from "date-fns";
 import Balance from "./components/balance";
 import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, View, SafeAreaView, Text, FlatList, TouchableOpacity, Alert } from "react-native";
+import { ActivityIndicator, Modal, SafeAreaView, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import MovementsList from "./components/movementsList";
 import Icon from "react-native-vector-icons/AntDesign";
+import ModalContent from "./components/modal";
 
 export default function Home() {
 
   const [balance, setBalance] = useState([]);
   const [loadingBalance, setLoaginBalance] = useState(true);
   const [dateMovements, setDateMovments] = useState(new Date());
+  const [modalVisible, setModalVisible] = useState(false);
   const [movements, setMovements] = useState([]);
   const isFocused = useIsFocused();
 
@@ -93,7 +95,7 @@ export default function Home() {
       </Content>
       <ContentMovements>
         <FilterArea>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Icon name="calendar" size={25} color={"#000"} />
           </TouchableOpacity>
           <Text style={{ fontSize: 20, color: "#000" }}>Ultimas movimentações</Text>
@@ -106,6 +108,9 @@ export default function Home() {
           contentContainerStyle={{ paddingBottom: 20 }}
         />
       </ContentMovements>
+      <Modal visible={modalVisible} animationType="fade" transparent={true} >
+        <ModalContent $modalVisible={() => setModalVisible(false)}/>
+      </Modal>
     </Container>
   )
 }
