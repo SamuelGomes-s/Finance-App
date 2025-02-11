@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { Container, Content, ContentMovements, FilterArea } from "./styles";
 import { api } from "../../services/api/apiBackend";
-import { format } from "date-fns";
+import { format, setDate } from "date-fns";
 import Balance from "./components/balance";
 import { useIsFocused } from "@react-navigation/native";
 import { ActivityIndicator, Modal, SafeAreaView, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import MovementsList from "./components/movementsList";
 import Icon from "react-native-vector-icons/AntDesign";
 import ModalContent from "./components/modal";
+import { tr } from "date-fns/locale";
 
 export default function Home() {
 
@@ -73,6 +74,11 @@ export default function Home() {
     };
   };
 
+  async function handleFilter(dateSelected) {
+    setModalVisible(false);
+    setDateMovments(dateSelected);
+  };
+
   if (loadingBalance) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f0f4ff" }}>
@@ -109,7 +115,7 @@ export default function Home() {
         />
       </ContentMovements>
       <Modal visible={modalVisible} animationType="fade" transparent={true} >
-        <ModalContent $modalVisible={() => setModalVisible(false)}/>
+        <ModalContent $modalVisible={() => setModalVisible(false)} $filter={handleFilter} />
       </Modal>
     </Container>
   )

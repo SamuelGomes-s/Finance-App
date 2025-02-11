@@ -4,7 +4,7 @@ import SubmitBtn from "../../../components/SubmitBtn";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import React, { useState } from "react";
 
-export default function ModalContent({ $modalVisible }) {
+export default function ModalContent({ $modalVisible, $filter }) {
     const [date, setDate] = useState(new Date());
     const [markedDay, setMarkedDay] = useState({});
 
@@ -19,7 +19,7 @@ export default function ModalContent({ $modalVisible }) {
         };
         setMarkedDay(day);
     }
-    
+
     return (
         <Container>
             <TouchableWithoutFeedback onPress={$modalVisible}>
@@ -38,7 +38,7 @@ export default function ModalContent({ $modalVisible }) {
                         selectedDayText: '#fff'
                     }}
                 />
-                <SubmitBtn $text={'Filtrar'} />
+                <SubmitBtn $text={'Filtrar'} onPress={() => $filter(date)} />
             </ContentCalendar>
         </Container>
     )
