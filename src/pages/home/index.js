@@ -9,12 +9,12 @@ import { ActivityIndicator, Modal, SafeAreaView, Text, FlatList, TouchableOpacit
 import MovementsList from "./components/movementsList";
 import Icon from "react-native-vector-icons/AntDesign";
 import ModalContent from "./components/modal";
-import { tr } from "date-fns/locale";
+import { showMessage } from "react-native-flash-message";
 
 export default function Home() {
 
   const [balance, setBalance] = useState([]);
-  const [loadingBalance, setLoaginBalance] = useState(true);
+  const [loadingBalance, setLoadingBalance] = useState(true);
   const [dateMovements, setDateMovments] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [movements, setMovements] = useState([]);
@@ -26,7 +26,7 @@ export default function Home() {
 
   async function loadBalance() {
     try {
-      setLoaginBalance(true);
+      setLoadingBalance(true);
       const dateFormated = format(new Date(dateMovements), 'dd/MM/yyyy');
       const responseMovements = await api.get('/receives', {
         params: {
@@ -42,8 +42,14 @@ export default function Home() {
       setBalance(responseBalance.data);
     } catch (error) {
       console.log(error.message);
+      showMessage({
+        message: `Erro ao buscar dados do saldo ${error.message}`,
+        type: "error",
+        backgroundColor: "#EF463A",
+        color: "#FFFFFf",
+      });
     } finally {
-      setLoaginBalance(false);
+      setLoadingBalance(false);
     }
   };
 
@@ -69,6 +75,12 @@ export default function Home() {
         }
       })
       loadBalance();
+      showMessage({
+        message: `Registro deletado com sucesso!`,
+        type: "success",
+        backgroundColor: "#00B94A",
+        color: "#FFFFFf",
+      });
     } catch (error) {
       console.log(error.message);
     };
@@ -106,13 +118,18 @@ export default function Home() {
           </TouchableOpacity>
           <Text style={{ fontSize: 20, color: "#000" }}>Ultimas movimentações</Text>
         </FilterArea>
-        <FlatList
-          data={movements}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => <MovementsList data={item} deleteItem={handleDeleteMovements} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        />
+        {movements.length === 0 ?
+          (< Text style={{ textAlign: "center", marginTop: 25 }}>
+            Não possui movimentos registrados na data {dateMovements.toLocaleDateString()}...
+          </Text>)
+          :
+          (<FlatList
+            data={movements}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => <MovementsList data={item} deleteItem={handleDeleteMovements} />}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />)}
       </ContentMovements>
       <Modal visible={modalVisible} animationType="fade" transparent={true} >
         <ModalContent $modalVisible={() => setModalVisible(false)} $filter={handleFilter} />

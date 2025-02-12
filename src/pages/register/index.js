@@ -7,6 +7,7 @@ import SubmitBtn from "../../components/SubmitBtn";
 import { api } from "../../services/api/apiBackend"
 import { format } from "date-fns";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
 export default function Register() {
 
@@ -17,12 +18,30 @@ export default function Register() {
   async function handleAddRegister() {
 
     if (!description || description.trim() === '') {
-      alert('A nome do registro deve ser preenchido');
+      showMessage({
+        message: `A descrição deve ser preenchida.`,
+        type: "warning",
+        backgroundColor: "#EF4",
+        color: "#000",
+      });
       return
     }
-
+    if (isNaN(value)) {
+      showMessage({
+        message: `O valor do registro deve ser um numero positivo e valido.`,
+        type: "warning",
+        backgroundColor: "#EF4",
+        color: "#000",
+      });
+      return
+    }
     if (!value || Number(value <= 0)) {
-      alert('O valor do registro deve estar preenchido e ser um numero positivo e valido');
+      showMessage({
+        message: `O valor do registro deve estar preenchido e ser um numero positivo.`,
+        type: "warning",
+        backgroundColor: "#EF4",
+        color: "#000",
+      });
       return
     }
 
@@ -39,8 +58,20 @@ export default function Register() {
       setType('receita');
       setValue('');
       setDescription('');
+      showMessage({
+        message: `Registro realizado com sucesso!`,
+        type: "success",
+        backgroundColor: "#00B94A",
+        color: "#FFFFFf",
+      });
     } catch (error) {
       console.log(error.message)
+      showMessage({
+        message: `Não foi possivel deletar o registro devido ao erro de ${error.message}`,
+        type: "error",
+        backgroundColor: "#EF463A",
+        color: "#FFFFFf",
+      });
     }
   }
 

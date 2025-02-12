@@ -1,7 +1,8 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import { api } from "../services/api/apiBackend";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 
 export const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export default function AuthProvider({ children }) {
     const [loadingUser, setLoadingUser] = useState(true);
     const navigation = useNavigation();
 
-    useState(() => {
+    useEffect(() => {
         loadUser()
     }, [])
 
@@ -40,13 +41,24 @@ export default function AuthProvider({ children }) {
                     uid: response.data?.id,
                 }
             );
-
+            showMessage({
+                message: `Login realizado com sucesso!`,
+                type: "success",
+                backgroundColor: "#00B94A",
+                color: "#FFFFFf",
+            });
         } catch (error) {
             console.log(error.message)
+            showMessage({
+                message: `Não foi possivel realizar o login devido ao erro de ${error.message}`,
+                type: "error",
+                backgroundColor: "#EF463A",
+                color: "#FFFFFf",
+            });
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     async function handleSignUp(name, email, password) {
         try {
@@ -57,32 +69,57 @@ export default function AuthProvider({ children }) {
                 email: email
             })
             navigation.goBack();
+            showMessage({
+                message: `Cadastro realizado com sucesso!`,
+                type: "success",
+                backgroundColor: "#00B94A",
+                color: "#FFFFFf",
+            });
         } catch (error) {
             console.log(error.message);
+            showMessage({
+                message: `Não foi possivel realizar o login devido ao erro de ${error.message}`,
+                type: "error",
+                backgroundColor: "#EF463A",
+                color: "#FFFFFf",
+            });
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     async function loadUser() {
         await localStorage();
         setLoadingUser(false);
-    }
+    };
 
     async function handleLogOut() {
         try {
             setLoading(true);
             await localStorage(null, true);
+            showMessage({
+                message: `Deslogado com sucesso.`,
+                type: "warning",
+                backgroundColor: "#EF4",
+                color: "#000",
+            });
         } catch (error) {
             console.log(error);
+            showMessage({
+                message: `Não foi possivel deslogar o usuario devido ao erro de ${error.message}`,
+                type: "error",
+                backgroundColor: "#EF463A",
+                color: "#FFFFFf",
+            });
         } finally {
             setLoading(false);
         }
-    }
+    };
+
     async function localStorage(data, signOut) {
         try {
             if (data === null && signOut) {
-                AsyncStorage.removeItem('user');
+                await AsyncStorage.removeItem('user');
                 setUser(null);
                 return
             };
@@ -100,14 +137,20 @@ export default function AuthProvider({ children }) {
                 setUser({
                     name: userLocal?.name,
                     email: userLocal?.email,
-                    uid: userLocal?.id,
+                    uid: userLocal?.uid,
                 });
                 api.defaults.headers['Authorization'] = `Bearer ${userLocal?.token}`;
             }
         } catch (error) {
             console.log(error)
+            showMessage({
+                message: `Erro ao tentar buscar dados || ${error.message}`,
+                type: "error",
+                backgroundColor: "#EF463A",
+                color: "#FFFFFf",
+            });
         }
-    }
+    };
 
     return (
         <AuthContext.Provider
