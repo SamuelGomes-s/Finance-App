@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { Container, Content, ContentMovements, FilterArea } from "./styles";
 import { api } from "../../services/api/apiBackend";
-import { format, setDate } from "date-fns";
+import { format } from "date-fns";
 import Balance from "./components/balance";
 import { useIsFocused } from "@react-navigation/native";
 import { ActivityIndicator, Modal, SafeAreaView, Text, FlatList, TouchableOpacity, Alert } from "react-native";

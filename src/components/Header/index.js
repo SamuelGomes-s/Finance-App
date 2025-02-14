@@ -9,6 +9,7 @@ export default function Header({ $msg }) {
     function openMenu() {
         navigation.openDrawer();
     }
+    
     return (
         <Container>
             <Content>

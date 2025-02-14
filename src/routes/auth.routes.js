@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignIn from "../pages/login/signIn";
 import SignUp from "../pages/login/signUp";
-import { ColorProperties } from "react-native-reanimated/lib/typescript/Colors";
 
 const AuthStack = createNativeStackNavigator();
 
@@ -12,6 +11,12 @@ export default function AuthRoutes() {
             <AuthStack.Screen name="signIn" component={SignIn} options={{
                 headerShown: false
             }} />
-            <AuthStack.Screen name="signUp" component={SignUp} />
+            <AuthStack.Screen name="signUp" component={SignUp} options={{
+                title: 'Voltar',
+                headerStyle: {
+                    backgroundColor: '#3b3dbf'
+                },
+                headerTintColor: '#FFFF'
+            }} />
         </AuthStack.Navigator>)
 }
