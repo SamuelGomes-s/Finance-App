@@ -11,3 +11,5 @@ Tecnologias Utilizadas
   React Navigation - Para navegação entre telas no app.
   Styled Components - Para estilização dos componentes de forma modular e reutilizável.
   Context API - Para gerenciar o estado global da aplicação.
+
+  Para o backend foi utilizado: https://github.com/devfraga/backend-financas
