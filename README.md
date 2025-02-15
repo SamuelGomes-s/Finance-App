@@ -4,7 +4,6 @@ O Finance App é um aplicativo para controle financeiro pessoal. Ele permite que
 Funcionalidades
   Registro de receitas e despesas: Adicione transações financeiras com descrição, valor e categoria.
   Visualização de saldo: Acompanhe o seu saldo disponível a partir das receitas e despesas registradas.
-  Gráficos de despesas: Veja um gráfico que mostra a distribuição das despesas por categoria.
   Filtros de transações: Filtre suas transações por data.
   
 Tecnologias Utilizadas
